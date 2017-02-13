@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.lxm.smartbutler.R;
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
