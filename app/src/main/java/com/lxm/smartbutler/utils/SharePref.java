@@ -45,4 +45,9 @@ public class SharePref {
         SharedPreferences sp = mContext.getSharedPreferences(NAME,Context.MODE_PRIVATE);
         return sp.getBoolean(key,defValue);
     }
+    public static void remove(Context mContext,String key){
+        SharedPreferences sp = mContext.getSharedPreferences(NAME,Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.remove(key).commit();
+    }
 }
