@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
+
     <application
         android:name=".application.BaseApplication"
         android:allowBackup="true"
@@ -27,8 +28,15 @@
             android:name=".ui.SettingActivity"
             android:label="@string/text_setting" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".ui.GuideActivity"
-            android:theme="@style/NoActionFullScreenTheme"></activity>
+        <activity
+            android:name=".ui.GuideActivity"
+            android:theme="@style/NoActionFullScreenTheme" />
+        <activity android:name=".ui.LoginActivity"
+            android:label="登录"/>
+        <activity android:name=".ui.RegisterActivity"
+            android:label="注册"/>
+        <activity android:name=".ui.findPassActivity"
+            android:label="找回密码"/>
     </application>
 
 </manifest>
