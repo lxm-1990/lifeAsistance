@@ -15,6 +15,7 @@ import com.lxm.smartbutler.fragment.GrilFragment;
 import com.lxm.smartbutler.fragment.UserFragment;
 import com.lxm.smartbutler.fragment.WechatFragment;
 import com.lxm.smartbutler.ui.SettingActivity;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportActionBar().setElevation(0);
         initData();
         initView();
+        CrashReport.testJavaCrash();
     }
 
     private void initView() {
