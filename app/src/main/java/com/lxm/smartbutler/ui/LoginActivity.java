@@ -48,6 +48,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         find_pass = (TextView) findViewById(R.id.tv_forget);
         find_pass.setOnClickListener(this);
         if (SharePref.getBoolean(this,"keeppass",false)){
+            remember_pass.setChecked(true);
             et_user.setText(SharePref.getString(this,"name",""));
             et_password.setText(SharePref.getString(this,"password",""));
         }
