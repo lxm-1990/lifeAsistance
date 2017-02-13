@@ -5,4 +5,7 @@ package com.lxm.smartbutler.utils;
  */
 
 public class StaticClass {
+    public static final int SPLASH_ACTIVITY = 1001;
+    //是否为第一次启动
+    public static final String IS_FIRST = "isFirst";
 }
