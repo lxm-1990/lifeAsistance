@@ -16,6 +16,7 @@ import com.lxm.smartbutler.MainActivity;
 import com.lxm.smartbutler.R;
 import com.lxm.smartbutler.entity.MyUser;
 import com.lxm.smartbutler.utils.SharePref;
+import com.lxm.smartbutler.view.CustomDialog;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
@@ -27,6 +28,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button btn_register,btn_login;
     private CheckBox remember_pass;
     private TextView find_pass;
+    private CustomDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +51,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             et_user.setText(SharePref.getString(this,"name",""));
             et_password.setText(SharePref.getString(this,"password",""));
         }
+        dialog = new CustomDialog(this,R.layout.custom_layout,R.style.theme_dialog);
+        dialog.setCancelable(false);
     }
 
     @Override
@@ -65,10 +69,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     final MyUser user = new MyUser();
                     user.setUsername(name);
                     user.setPassword(pass);
+                    dialog.show();
                     user.login(new SaveListener<MyUser>() {
 
                         @Override
                         public void done(MyUser bmobUser, BmobException e) {
+                            dialog.dismiss();
                             if(e==null){
                                 if (bmobUser.getEmailVerified()) {
                                     Toast.makeText(LoginActivity.this,"登录成功", Toast.LENGTH_SHORT).show();

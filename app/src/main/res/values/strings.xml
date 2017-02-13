@@ -20,4 +20,5 @@
     <string name="text_editor_password">修改密码</string>
     <string name="text_now_password">旧密码</string>
     <string name="text_new_password">新密码</string>
+    <string name="text_now_login">正在登录...</string>
 </resources>
