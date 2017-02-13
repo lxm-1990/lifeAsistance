@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportActionBar().setElevation(0);
         initData();
         initView();
-        CrashReport.testJavaCrash();
     }
 
     private void initView() {
