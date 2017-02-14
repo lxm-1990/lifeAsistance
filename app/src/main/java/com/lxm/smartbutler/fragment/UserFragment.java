@@ -26,6 +26,7 @@ import com.lxm.smartbutler.R;
 import com.lxm.smartbutler.entity.MyUser;
 import com.lxm.smartbutler.ui.CourierActivity;
 import com.lxm.smartbutler.ui.LoginActivity;
+import com.lxm.smartbutler.ui.PhoneLocationAcitivity;
 import com.lxm.smartbutler.utils.UtilTools;
 import com.lxm.smartbutler.view.CustomDialog;
 
@@ -54,7 +55,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     private CustomDialog dialog;
     private Button take_pic,choose_pic,cancel;
     private Uri take_imageUri;
-    private TextView tv_courier;
+    private TextView tv_courier,tv_phone;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -100,6 +101,8 @@ public class UserFragment extends Fragment implements View.OnClickListener{
 
         tv_courier = (TextView) view.findViewById(R.id.tv_courier);
         tv_courier.setOnClickListener(this);
+        tv_phone = (TextView) view.findViewById(R.id.tv_phone);
+        tv_phone.setOnClickListener(this);
 
     }
 
@@ -171,6 +174,10 @@ public class UserFragment extends Fragment implements View.OnClickListener{
             case R.id.tv_courier:
                 Intent intent_courier = new Intent(getActivity(), CourierActivity.class);
                 getActivity().startActivity(intent_courier);
+                break;
+            case R.id.tv_phone:
+                Intent intent_phone = new Intent(getActivity(), PhoneLocationAcitivity.class);
+                getActivity().startActivity(intent_phone);
                 break;
         }
     }

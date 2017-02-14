@@ -12,7 +12,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
-import com.lxm.smartbutler.MainActivity;
 import com.lxm.smartbutler.R;
 import com.lxm.smartbutler.adapter.CourierAdapter;
 import com.lxm.smartbutler.entity.CourierData;
