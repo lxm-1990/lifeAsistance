@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.lxm.smartbutler.R;
 import com.lxm.smartbutler.entity.MyUser;
+import com.lxm.smartbutler.ui.CourierActivity;
 import com.lxm.smartbutler.ui.LoginActivity;
 import com.lxm.smartbutler.utils.UtilTools;
 import com.lxm.smartbutler.view.CustomDialog;
@@ -53,6 +54,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     private CustomDialog dialog;
     private Button take_pic,choose_pic,cancel;
     private Uri take_imageUri;
+    private TextView tv_courier;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -95,6 +97,9 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         choose_pic.setOnClickListener(this);
         cancel = (Button) dialog.findViewById(R.id.cancel);
         cancel.setOnClickListener(this);
+
+        tv_courier = (TextView) view.findViewById(R.id.tv_courier);
+        tv_courier.setOnClickListener(this);
 
     }
 
@@ -162,6 +167,10 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.choose_pic:
                 choosePicture();
+                break;
+            case R.id.tv_courier:
+                Intent intent_courier = new Intent(getActivity(), CourierActivity.class);
+                getActivity().startActivity(intent_courier);
                 break;
         }
     }

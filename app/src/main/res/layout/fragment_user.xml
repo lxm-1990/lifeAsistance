@@ -142,7 +142,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:text="物流查询"
-            android:textSize="20dp"/>
+            android:textSize="20dp"
+            android:clickable="true"/>
 
         <View
             android:layout_width="match_parent"
@@ -158,7 +159,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:text="归属地查询"
-            android:textSize="20dp"/>
+            android:textSize="20dp"
+            android:clickable="true"/>
 
         <View
             android:layout_width="match_parent"
