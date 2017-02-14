@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,10 +18,12 @@ import android.widget.Toast;
 import com.lxm.smartbutler.R;
 import com.lxm.smartbutler.entity.MyUser;
 import com.lxm.smartbutler.ui.LoginActivity;
+import com.lxm.smartbutler.view.CustomDialog;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,6 +33,9 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     private Button btn_logOff,btn_sure_modify;
     private EditText et_name,et_age,et_sex,et_desc;
     private TextView tv_modify;
+    private CircleImageView takePic;
+    private CustomDialog dialog;
+    private Button take_pic,choose_pic,cancel;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -58,6 +65,18 @@ public class UserFragment extends Fragment implements View.OnClickListener{
             et_desc.setText(user.getDesc());
         }
         setEnbled(false);
+
+        takePic = (CircleImageView) view.findViewById(R.id.profile_image);
+        takePic.setOnClickListener(this);
+        dialog = new CustomDialog(getActivity(), WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT,R.layout.choose_pic_layout,R.style.theme_dialog, Gravity.BOTTOM);
+        dialog.setCancelable(false);
+
+        take_pic = (Button) dialog.findViewById(R.id.take_pic);
+        take_pic.setOnClickListener(this);
+        choose_pic = (Button) dialog.findViewById(R.id.choose_pic);
+        choose_pic.setOnClickListener(this);
+        cancel = (Button) dialog.findViewById(R.id.cancel);
+        cancel.setOnClickListener(this);
 
     }
 
@@ -115,6 +134,11 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                 setEnbled(true);
                 btn_sure_modify.setVisibility(View.VISIBLE);
                 break;
+            case R.id.profile_image:
+                dialog.show();
+                break;
+            case R.id.cancel:
+                dialog.dismiss();
         }
     }
 }
