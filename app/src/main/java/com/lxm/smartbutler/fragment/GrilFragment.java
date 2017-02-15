@@ -3,17 +3,25 @@ package com.lxm.smartbutler.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.lxm.smartbutler.R;
 import com.lxm.smartbutler.adapter.GirlAdapter;
 import com.lxm.smartbutler.entity.GirlData;
+import com.lxm.smartbutler.utils.PicassoUtils;
 import com.lxm.smartbutler.utils.StaticClass;
+import com.lxm.smartbutler.view.CustomDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,6 +30,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.senab.photoview.PhotoView;
+import uk.co.senab.photoview.PhotoViewAttacher;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -29,6 +40,9 @@ public class GrilFragment extends Fragment {
 
     private GridView mGridView;
     private List<GirlData> mList = new ArrayList<>();
+    private CustomDialog dialog;
+    private PhotoView iv_img;
+    private PhotoViewAttacher mAttacher;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,13 +55,27 @@ public class GrilFragment extends Fragment {
 
     private void findView(View view) {
         mGridView = (GridView) view.findViewById(R.id.mGridView);
-
+        dialog = new CustomDialog(getActivity(), LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT,R.layout.girl_dialog,R.style.theme_dialog, Gravity.CENTER);
+        iv_img = (PhotoView) dialog.findViewById(R.id.iv_img);
         //加载数据
         RxVolley.get(StaticClass.GIRL_URL, new HttpCallback() {
             @Override
             public void onSuccess(String t) {
                 super.onSuccess(t);
                 parseJson(t);
+            }
+        });
+
+
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (!TextUtils.isEmpty(mList.get(i).getUrl())){
+                    PicassoUtils.loadImageView(getActivity(),mList.get(i).getUrl(),iv_img);
+                    mAttacher = new PhotoViewAttacher(iv_img);
+                    mAttacher.update();
+                }
+                dialog.show();
             }
         });
     }
