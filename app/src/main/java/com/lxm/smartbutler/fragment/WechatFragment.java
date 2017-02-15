@@ -1,11 +1,13 @@
 package com.lxm.smartbutler.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.kymjs.rxvolley.RxVolley;
@@ -15,6 +17,7 @@ import com.lxm.smartbutler.adapter.ChatAdapter;
 import com.lxm.smartbutler.adapter.WeChatAdapter;
 import com.lxm.smartbutler.entity.ChatData;
 import com.lxm.smartbutler.entity.WeChatData;
+import com.lxm.smartbutler.ui.WebViewActivity;
 import com.lxm.smartbutler.utils.StaticClass;
 
 import org.json.JSONArray;
@@ -70,6 +73,17 @@ public class WechatFragment extends Fragment {
             }
             WeChatAdapter adapter = new WeChatAdapter(getActivity(),mList);
             mListView.setAdapter(adapter);
+
+            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    WeChatData data = mList.get(i);
+                    Intent intent = new Intent(getActivity(), WebViewActivity.class);
+                    intent.putExtra("title",data.getTitle());
+                    intent.putExtra("url",data.getUrl());
+                    getActivity().startActivity(intent);
+                }
+            });
 
         } catch (JSONException e) {
             e.printStackTrace();
