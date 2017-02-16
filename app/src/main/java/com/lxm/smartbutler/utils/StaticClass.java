@@ -24,4 +24,7 @@ public class StaticClass {
     //美女图片借口利用gank
     public static final String GIRL_URL = "http://gank.io/api/search/query/listview/category/福利/count/50/page/1";
 
+    //科大讯飞语音合成key
+    public static final String TTS_APPID = "58a51ba9";
+
 }
