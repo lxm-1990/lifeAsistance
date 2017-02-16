@@ -32,6 +32,8 @@ public class SmsService extends Service implements View.OnClickListener{
     private WindowManager vm;
     private WindowManager.LayoutParams layoutParams;
     private DispatchLinearLayout mView;
+    private HomeWatchReceiver homeWatchReceiver;
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -50,6 +52,12 @@ public class SmsService extends Service implements View.OnClickListener{
         filter.setPriority(Integer.MAX_VALUE);
         reciver = new SmsReciver();
         registerReceiver(reciver,filter);
+
+        homeWatchReceiver = new HomeWatchReceiver();
+        IntentFilter filter1 = new IntentFilter();
+        filter1.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+        registerReceiver(homeWatchReceiver,filter1);
+
         L.i("开启短信服务");
     }
 
@@ -58,6 +66,7 @@ public class SmsService extends Service implements View.OnClickListener{
         super.onDestroy();
         //取消短信监听广播
         unregisterReceiver(reciver);
+        unregisterReceiver(homeWatchReceiver);
         L.i("关闭短信服务");
     }
 
@@ -126,6 +135,23 @@ public class SmsService extends Service implements View.OnClickListener{
                     vm.removeView(mView);
                 }
                 break;
+        }
+    }
+
+    //home监听
+    private class HomeWatchReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction() == Intent.ACTION_CLOSE_SYSTEM_DIALOGS) {
+
+                String reason = intent.getStringExtra("reason");
+                if (reason.equals("homekey")) {
+                    if (mView.getParent() != null) {
+                        vm.removeView(mView);
+                    }
+                }
+            }
         }
     }
 }
