@@ -22,7 +22,7 @@ public class StaticClass {
     //微信精选key
     public static final String WECHAT_KEY = "78f723dccf85aea324a3cf0daac97f35";
     //美女图片借口利用gank
-    public static final String GIRL_URL = "http://gank.io/api/search/query/listview/category/瞎推荐/count/10/page/1";
+    public static final String GIRL_URL = "http://gank.io/api/search/query/listview/category/option/count/10/page/1";
 
     //科大讯飞语音合成key
     public static final String TTS_APPID = "58a51ba9";

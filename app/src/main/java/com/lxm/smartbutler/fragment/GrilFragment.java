@@ -27,6 +27,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,8 +59,18 @@ public class GrilFragment extends Fragment {
         mGridView = (GridView) view.findViewById(R.id.mGridView);
         dialog = new CustomDialog(getActivity(), LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT,R.layout.girl_dialog,R.style.theme_dialog, Gravity.CENTER);
         iv_img = (PhotoView) dialog.findViewById(R.id.iv_img);
+
+        String welfare = null;
+        try {
+            //Gank升級 需要转码
+            welfare = URLEncoder.encode("福利", "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
         //加载数据
-        RxVolley.get(StaticClass.GIRL_URL, new HttpCallback() {
+        String url = StaticClass.GIRL_URL.replace("option",welfare);
+        RxVolley.get(url, new HttpCallback() {
             @Override
             public void onSuccess(String t) {
                 super.onSuccess(t);
