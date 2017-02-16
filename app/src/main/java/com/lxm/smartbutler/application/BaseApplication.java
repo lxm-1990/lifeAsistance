@@ -1,9 +1,12 @@
 package com.lxm.smartbutler.application;
 
 import android.app.Application;
+import android.content.Intent;
 
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
+import com.lxm.smartbutler.service.SmsService;
+import com.lxm.smartbutler.utils.SharePref;
 import com.lxm.smartbutler.utils.StaticClass;
 import com.tencent.bugly.crashreport.CrashReport;
 
@@ -21,5 +24,11 @@ public class BaseApplication extends Application {
         Bmob.initialize(this, StaticClass.BMOB_APPID);
 
         SpeechUtility.createUtility(getApplicationContext(), SpeechConstant.APPID +"=" + StaticClass.TTS_APPID);
+
+        if (SharePref.getBoolean(this,"isSMS",false)) {
+            //开启短信提醒服务
+            Intent intent = new Intent(this, SmsService.class);
+            startService(intent);
+        }
     }
 }

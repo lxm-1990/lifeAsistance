@@ -27,4 +27,6 @@ public class StaticClass {
     //科大讯飞语音合成key
     public static final String TTS_APPID = "58a51ba9";
 
+    public static final String SMS_ACTION = "android.provider.Telephony.SMS_RECEIVED";
+
 }
