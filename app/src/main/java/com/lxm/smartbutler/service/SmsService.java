@@ -11,6 +11,7 @@ import android.os.IBinder;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import com.lxm.smartbutler.R;
 import com.lxm.smartbutler.utils.L;
 import com.lxm.smartbutler.utils.StaticClass;
+import com.lxm.smartbutler.view.DispatchLinearLayout;
 
 public class SmsService extends Service implements View.OnClickListener{
 
@@ -29,7 +31,7 @@ public class SmsService extends Service implements View.OnClickListener{
 
     private WindowManager vm;
     private WindowManager.LayoutParams layoutParams;
-    private View mView;
+    private DispatchLinearLayout mView;
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -87,7 +89,20 @@ public class SmsService extends Service implements View.OnClickListener{
         layoutParams.format = PixelFormat.TRANSLUCENT;
         layoutParams.type = WindowManager.LayoutParams.TYPE_PHONE;
 
-        mView = View.inflate(getApplicationContext(), R.layout.sms_item,null);
+        mView = (DispatchLinearLayout) View.inflate(getApplicationContext(), R.layout.sms_item,null);
+        mView.setmDispatchKeyEventListener(new DispatchLinearLayout.DispatchKeyEventListener() {
+            @Override
+            public boolean dispatchKeyEvent(KeyEvent event) {
+                if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+                    if (mView.getParent() != null) {
+                        vm.removeView(mView);
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+
         vm.addView(mView,layoutParams);
 
         TextView tv_phone = (TextView) mView.findViewById(R.id.tv_phone);
