@@ -82,8 +82,11 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".ui.DownloadActivity"
-            android:label="下载"/>
+        <activity
+            android:name=".ui.DownloadActivity"
+            android:label="下载" />
+        <activity android:name=".ui.QRCreateActivity"
+            android:label="生成二维码"/>
     </application>
 
 </manifest>

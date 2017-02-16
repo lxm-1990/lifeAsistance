@@ -72,4 +72,5 @@ dependencies {
         exclude group: 'com.squareup.okhttp3'
         exclude group: 'com.squareup.okio'
     }
+    compile project(path: ':libzxing')
 }

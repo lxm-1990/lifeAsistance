@@ -19,6 +19,7 @@ import com.lxm.smartbutler.service.SmsService;
 import com.lxm.smartbutler.utils.L;
 import com.lxm.smartbutler.utils.SharePref;
 import com.lxm.smartbutler.view.CustomDialog;
+import com.xys.libzxing.zxing.activity.CaptureActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,6 +32,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private TextView currentVersion;
     private String versionName = "";
     private int versionCode = 0;
+    private LinearLayout layout_scan;
+    private LinearLayout layout_create;
+    private TextView tv_result;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +62,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         //获得当前版本信息
         getPackageNameAndCode();
         currentVersion.setText("当前版本:" + versionName);
+
+        layout_scan = (LinearLayout) findViewById(R.id.layout_scan);
+        layout_create = (LinearLayout) findViewById(R.id.layout_create);
+        layout_scan.setOnClickListener(this);
+        layout_create.setOnClickListener(this);
+        tv_result = (TextView) findViewById(R.id.tv_result);
     }
 
     @Override
@@ -89,6 +99,13 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                         parseJson(t);
                     }
                 });
+                break;
+            case R.id.layout_scan:
+                Intent openCameraIntent = new Intent(this, CaptureActivity.class);
+                startActivityForResult(openCameraIntent, 0);
+                break;
+            case R.id.layout_create:
+                startActivity(new Intent(this,QRCreateActivity.class));
                 break;
         }
     }
@@ -131,6 +148,16 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             versionCode = pi.versionCode;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            Bundle bundle = data.getExtras();
+            String scanResult = bundle.getString("result");
+            tv_result.setText(scanResult);
         }
     }
 }
