@@ -34,6 +34,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private int versionCode = 0;
     private LinearLayout layout_scan;
     private LinearLayout layout_create;
+    private LinearLayout layout_location;
+    private LinearLayout layout_aboutUs;
     private TextView tv_result;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +70,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         layout_scan.setOnClickListener(this);
         layout_create.setOnClickListener(this);
         tv_result = (TextView) findViewById(R.id.tv_result);
+        layout_location = (LinearLayout) findViewById(R.id.layout_location);
+        layout_location.setOnClickListener(this);
+        layout_aboutUs = (LinearLayout) findViewById(R.id.layout_aboutUs);
+        layout_aboutUs.setOnClickListener(this);
     }
 
     @Override
@@ -106,6 +112,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.layout_create:
                 startActivity(new Intent(this,QRCreateActivity.class));
+                break;
+            case R.id.layout_location:
+                startActivity(new Intent(this,LocationActivity.class));
+                break;
+            case R.id.layout_aboutUs:
+                startActivity(new Intent(this,AboutUsActivity.class));
                 break;
         }
     }

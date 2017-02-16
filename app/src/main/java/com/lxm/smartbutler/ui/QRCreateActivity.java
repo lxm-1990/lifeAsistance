@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.lxm.smartbutler.R;
 import com.xys.libzxing.zxing.encoding.EncodingUtils;
 
-public class QRCreateActivity extends AppCompatActivity {
+public class QRCreateActivity extends BaseActivity {
 
     private ImageView imageView;
     @Override
