@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportActionBar().setElevation(0);
         initData();
         initView();
+        getSupportActionBar().setTitle(mTitle.get(0));
     }
 
     private void initView() {
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onPageSelected(int position) {
+                getSupportActionBar().setTitle(mTitle.get(position));
                 if (position == 0) {
                     fab_setting.setVisibility(View.GONE);
                 } else {

@@ -1,19 +1,36 @@
 package com.lxm.smartbutler.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 
+import com.kymjs.rxvolley.RxVolley;
+import com.kymjs.rxvolley.client.HttpCallback;
 import com.lxm.smartbutler.R;
 import com.lxm.smartbutler.service.SmsService;
+import com.lxm.smartbutler.utils.L;
 import com.lxm.smartbutler.utils.SharePref;
+import com.lxm.smartbutler.view.CustomDialog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class SettingActivity extends BaseActivity implements View.OnClickListener{
 
     private Switch sw_speak;
     private Switch sw_sms;
+    private LinearLayout layout_check_verison;
+    private TextView currentVersion;
+    private String versionName = "";
+    private int versionCode = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +51,13 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         sw_sms.setSelected(SharePref.getBoolean(this,"isSMS",false));
         sw_sms.setOnClickListener(this);
 
+        layout_check_verison = (LinearLayout) findViewById(R.id.check_version);
+        layout_check_verison.setOnClickListener(this);
+        currentVersion = (TextView) findViewById(R.id.currentVersion);
+
+        //获得当前版本信息
+        getPackageNameAndCode();
+        currentVersion.setText("当前版本:" + versionName);
     }
 
     @Override
@@ -56,6 +80,57 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                     stopService(intent);
                 }
                 break;
+            case R.id.check_version:
+                String url = "http://192.168.0.101:8080/lxm/version.json";
+                RxVolley.get(url, new HttpCallback() {
+                    @Override
+                    public void onSuccess(String t) {
+                        super.onSuccess(t);
+                        parseJson(t);
+                    }
+                });
+                break;
+        }
+    }
+
+    private void parseJson(String t) {
+        L.i(t);
+        try {
+            JSONObject jsonObject = new JSONObject(t);
+            int code = jsonObject.getInt("verisonCode");
+            String content = jsonObject.getString("content");
+            final String url = jsonObject.getString("url");
+            if (code > versionCode) {
+                new AlertDialog.Builder(this)
+                        .setTitle("有新版本")
+                        .setMessage(content)
+                        .setPositiveButton("更新", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(SettingActivity.this,DownloadActivity.class);
+                                intent.putExtra("url",url);
+                                startActivity(intent);
+                            }
+                        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).create().show();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getPackageNameAndCode(){
+        PackageManager pm = getPackageManager();
+        try {
+            PackageInfo pi = pm.getPackageInfo(getPackageName(),0);
+            versionName = pi.versionName;
+            versionCode = pi.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }
