@@ -28,6 +28,8 @@ import com.lxm.smartbutler.utils.StaticClass;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,16 +93,21 @@ public class ButlerFragment extends Fragment implements View.OnClickListener{
                 mList.add(new ChatData(ChatAdapter.RIGHT_TYPE,chat));
                 mChatAdapter.notifyDataSetChanged();
                 mChatListView.setSelection(mChatListView.getBottom());
-                String url = "http://op.juhe.cn/robot/index?info=" + chat
-                        + "&key=" + StaticClass.CHAT_LIST_KEY;
-                RxVolley.get(url, new HttpCallback() {
-                    @Override
-                    public void onSuccess(String t) {
-                        L.i("!!!!!" + t);
-                        super.onSuccess(t);
-                        parseJson(t);
-                    }
-                });
+                try {
+                    String info = URLEncoder.encode(chat,"UTF-8");
+                    String url = "http://op.juhe.cn/robot/index?info=" + info
+                            + "&key=" + StaticClass.CHAT_LIST_KEY;
+                    RxVolley.get(url, new HttpCallback() {
+                        @Override
+                        public void onSuccess(String t) {
+                            L.i("!!!!!" + t);
+                            super.onSuccess(t);
+                            parseJson(t);
+                        }
+                    });
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
                 break;
         }
     }

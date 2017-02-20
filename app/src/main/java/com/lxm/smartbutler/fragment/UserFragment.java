@@ -165,6 +165,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.cancel:
                 dialog.dismiss();
+                break;
             case R.id.take_pic:
                 takePicture();
                 break;
